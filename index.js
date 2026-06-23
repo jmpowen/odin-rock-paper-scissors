@@ -40,7 +40,7 @@ function playRound(humanChoice, computerChoice) {
     playerScore++;
   } else if (computerChoice === "paper" && patternRock.test(humanChoice)) {
     console.log("computer wins");
-    playerScore++;
+    computerScore++;
   } else if (patternScissors.test(humanChoice) && computerChoice === "paper") {
     console.log("human wins");
     playerScore++;
@@ -51,7 +51,19 @@ function playRound(humanChoice, computerChoice) {
     console.log("H:" + humanChoice + " does not beat " + "C:" + computerChoice);
   }
 }
-while (computerScore < 2 || playerScore < 2) {
-  console.log("H:" + playerScore + " C:" + computerScore);
-  playRound(getHumanChoice(), getComputerChoice());
+
+function playGame() {
+  let round = 1;
+  while (playerScore < 5 && computerScore < 5) {
+    console.log("Round: " + round++);
+    playRound(getHumanChoice(), getComputerChoice());
+    console.log("H:"  + playerScore + " C:" + computerScore);
+  }
+  if (playerScore === 5) {
+    console.log("Human wins, final score: " + playerScore + "-" + computerScore);
+  } else {
+    console.log("Computer wins, final score: " + playerScore + "-" + computerScore);
+  }
 }
+
+playGame();
