@@ -93,6 +93,9 @@ BUTTON_RESET.addEventListener('click', () => {
   computerScore = 0;
   P_LOG.textContent = "";
   BUTTON_RESET.style.display = "none";
+  BUTTON_PAPER.disabled = false;
+  BUTTON_ROCK.disabled = false;
+  BUTTON_SCISSORS.disabled = false;
 })
 
 if (playerScore >= 5) {
