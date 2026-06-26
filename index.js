@@ -19,7 +19,7 @@ function getComputerChoice() {
       return "uh-oh";
   }
 }
-
+/*
 function getHumanChoice() {
   let choice = prompt("Rock-Paper-Scissors Go!");;
   while (!(patternRock.test(choice) || patternPaper.test(choice) || patternScissors.test(choice))) {
@@ -27,43 +27,79 @@ function getHumanChoice() {
   }
   return choice;
 }
+*/
+
+const BUTTON_ROCK = document.querySelector('#rock');
+const BUTTON_PAPER = document.querySelector('#paper');
+const BUTTON_SCISSORS = document.querySelector('#scissors');
+const P_LOG = document.querySelector('#log');
+
+BUTTON_ROCK.addEventListener('click', () => {
+  console.log('here')
+  playRound('rock', getComputerChoice());
+});
+
+BUTTON_PAPER.addEventListener('click', () => {
+  playRound('paper', getComputerChoice());
+});
+
+BUTTON_SCISSORS.addEventListener('click', () => {
+  playRound('scissors', getComputerChoice());
+})
 
 function playRound(humanChoice, computerChoice) {
+  let skip = false;
   if (patternRock.test(humanChoice) && computerChoice === "scissors") {
-    console.log("human wins");
     playerScore++;
   } else if (computerChoice === "rock" && patternScissors.test(humanChoice)) {
-    console.log("computer wins");
     computerScore++;
   } else if (patternPaper.test(humanChoice) && computerChoice === "rock") {
-    console.log("human wins");
     playerScore++;
   } else if (computerChoice === "paper" && patternRock.test(humanChoice)) {
-    console.log("computer wins");
     computerScore++;
   } else if (patternScissors.test(humanChoice) && computerChoice === "paper") {
-    console.log("human wins");
     playerScore++;
   } else if (computerChoice === "scissors" && patternPaper.test(humanChoice)) {
-    console.log("computer wins");
     computerScore++;
   } else {
-    console.log("H:" + humanChoice + " does not beat " + "C:" + computerChoice);
+    P_LOG.textContent = "H:" + humanChoice + " does not beat " + "C:" + computerChoice;
+    skip = true;
   }
+  if (!skip) {
+    skip = false;
+    P_LOG.textContent = "H:" + playerScore + " C:" + computerScore;
+  }
+  
+  if (playerScore >= 5) {
+    P_LOG.textContent = "We have a winner! Player wins " + playerScore + "-" + computerScore;
+    BUTTON_RESET.style.display = "block";
+    BUTTON_PAPER.disabled = true;
+    BUTTON_ROCK.disabled = true;
+    BUTTON_SCISSORS.disabled = true;
+  } else if (computerScore >= 5) {
+    P_LOG.textContent = "We have a winner! Computer wins " + computerScore + "-" + playerScore;
+    BUTTON_RESET.style.display = "block";
+    BUTTON_PAPER.disabled = true;
+    BUTTON_ROCK.disabled = true;
+    BUTTON_SCISSORS.disabled = true;
+  }
+
 }
 
-function playGame() {
-  let round = 1;
-  while (playerScore < 5 && computerScore < 5) {
-    console.log("Round: " + round++);
-    playRound(getHumanChoice(), getComputerChoice());
-    console.log("H:"  + playerScore + " C:" + computerScore);
-  }
-  if (playerScore === 5) {
-    console.log("Human wins, final score: " + playerScore + "-" + computerScore);
-  } else {
-    console.log("Computer wins, final score: " + playerScore + "-" + computerScore);
-  }
+const BUTTON_RESET = document.querySelector('#reset');
+
+BUTTON_RESET.addEventListener('click', () => {
+  playerScore = 0;
+  computerScore = 0;
+  P_LOG.textContent = "";
+  BUTTON_RESET.style.display = "none";
+})
+
+if (playerScore >= 5) {
+  P_LOG.textContent = "We have a winner! Player wins " + playerScore + "-" + computerScore;
+  BUTTON_RESET.style.display = "block";
+} else if (computerScore >= 5) {
+  P_LOG.textContent = "We have a winner! Computer wins " + computerScore + "-" + playerScore;
+  BUTTON_RESET.style.display = "block";
 }
 
-playGame();
